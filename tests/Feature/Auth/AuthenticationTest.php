@@ -3,12 +3,31 @@
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Inertia\Support\Header;
+use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
 
 test('login screen can be rendered', function () {
     $response = $this->get(route('login'));
 
-    $response->assertOk();
+    $response
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('auth/login')
+            ->where('nickname', ''),
+        );
+});
+
+test('login screen accepts a nickname from the query string', function () {
+    $response = $this->get(route('login', [
+        'n' => 'calebe',
+    ]));
+
+    $response
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('auth/login')
+            ->where('nickname', 'calebe'),
+        );
 });
 
 test('users can authenticate using the login screen', function () {

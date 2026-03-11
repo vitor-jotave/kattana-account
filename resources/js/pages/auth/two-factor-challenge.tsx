@@ -24,18 +24,18 @@ export default function TwoFactorChallenge() {
     }>(() => {
         if (showRecoveryInput) {
             return {
-                title: 'Recovery code',
+                title: 'Codigo de recuperacao',
                 description:
-                    'Please confirm access to your account by entering one of your emergency recovery codes.',
-                toggleText: 'login using an authentication code',
+                    'Use um dos seus codigos de recuperacao para concluir o acesso a sua conta.',
+                toggleText: 'usar codigo autenticador',
             };
         }
 
         return {
-            title: 'Authentication code',
+            title: 'Codigo autenticador',
             description:
-                'Enter the authentication code provided by your authenticator application.',
-            toggleText: 'login using a recovery code',
+                'Digite o codigo atual do seu aplicativo autenticador para concluir a entrada.',
+            toggleText: 'usar codigo de recuperacao',
         };
     }, [showRecoveryInput]);
 
@@ -50,7 +50,7 @@ export default function TwoFactorChallenge() {
             title={authConfigContent.title}
             description={authConfigContent.description}
         >
-            <Head title="Two-factor authentication" />
+            <Head title="Autenticacao em dois fatores" />
 
             <div className="space-y-6">
                 <Form
@@ -66,7 +66,7 @@ export default function TwoFactorChallenge() {
                                     <Input
                                         name="recovery_code"
                                         type="text"
-                                        placeholder="Enter recovery code"
+                                        placeholder="Digite um codigo de recuperacao"
                                         autoFocus={showRecoveryInput}
                                         required
                                     />
@@ -84,14 +84,16 @@ export default function TwoFactorChallenge() {
                                             onChange={(value) => setCode(value)}
                                             disabled={processing}
                                             pattern={REGEXP_ONLY_DIGITS}
+                                            containerClassName="justify-center"
                                         >
-                                            <InputOTPGroup>
+                                            <InputOTPGroup className="gap-2">
                                                 {Array.from(
                                                     { length: OTP_MAX_LENGTH },
                                                     (_, index) => (
                                                         <InputOTPSlot
                                                             key={index}
                                                             index={index}
+                                                            className="h-14 w-12 rounded-2xl border border-white/8 bg-white/[0.03] text-lg text-white first:rounded-2xl first:border last:rounded-2xl"
                                                         />
                                                     ),
                                                 )}
@@ -104,17 +106,17 @@ export default function TwoFactorChallenge() {
 
                             <Button
                                 type="submit"
-                                className="w-full"
+                                className="h-14 w-full rounded-full bg-white text-black hover:bg-white/90"
                                 disabled={processing}
                             >
-                                Continue
+                                Continuar
                             </Button>
 
-                            <div className="text-center text-sm text-muted-foreground">
-                                <span>or you can </span>
+                            <div className="text-center text-sm text-zinc-500">
+                                <span>ou voce pode </span>
                                 <button
                                     type="button"
-                                    className="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                    className="cursor-pointer text-white underline decoration-white/20 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-white"
                                     onClick={() =>
                                         toggleRecoveryMode(clearErrors)
                                     }
