@@ -14,6 +14,7 @@ test('profile page is displayed', function () {
 
 test('profile information can be updated', function () {
     $user = User::factory()->create();
+    $originalUuid = $user->uuid;
 
     $response = $this
         ->actingAs($user)
@@ -30,7 +31,14 @@ test('profile information can be updated', function () {
 
     expect($user->name)->toBe('Test User');
     expect($user->email)->toBe('test@example.com');
+    expect($user->uuid)->toBe($originalUuid);
     expect($user->email_verified_at)->toBeNull();
+});
+
+test('users receive a global uuid when they are created', function () {
+    $user = User::factory()->create();
+
+    expect($user->uuid)->not->toBeEmpty();
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
