@@ -7,6 +7,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useClipboard } from '@/hooks/use-clipboard';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { edit } from '@/routes/profile';
@@ -28,6 +29,7 @@ export default function Profile({
     status?: string;
 }) {
     const { auth } = usePage().props;
+    const [copiedValue, copy] = useClipboard();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -40,8 +42,31 @@ export default function Profile({
                     <Heading
                         variant="small"
                         title="Profile information"
-                        description="Update your name and email address"
+                        description="Manage your global Kattana account identity"
                     />
+
+                    <div className="grid gap-2 rounded-xl border border-border/60 bg-muted/30 p-4">
+                        <div className="flex items-center justify-between gap-3">
+                            <div>
+                                <p className="text-sm font-medium">
+                                    Global account ID
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                    Stable identifier for future Kattana app integrations.
+                                </p>
+                            </div>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => copy(auth.user.uuid)}
+                            >
+                                {copiedValue === auth.user.uuid ? 'Copied' : 'Copy'}
+                            </Button>
+                        </div>
+
+                        <Input value={auth.user.uuid} readOnly />
+                    </div>
 
                     <Form
                         {...ProfileController.update.form()}
