@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
+use Inertia\Support\Header;
 use Laravel\Fortify\Features;
 
 test('login screen can be rendered', function () {
@@ -20,6 +21,34 @@ test('users can authenticate using the login screen', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
+});
+
+test('inertia login uses external redirect semantics for integration launches', function () {
+    $user = User::factory()->create();
+
+    $this->withSession([
+        'url.intended' => route('integrations.apps.launch', [
+            'app' => 'economizze',
+            'return_to' => 'http://economizze-v2.test/auth/kattana/callback',
+        ]),
+    ]);
+
+    $response = $this->withHeaders([
+        Header::INERTIA => 'true',
+    ])->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $response
+        ->assertStatus(409)
+        ->assertHeader(
+            Header::LOCATION,
+            route('integrations.apps.launch', [
+                'app' => 'economizze',
+                'return_to' => 'http://economizze-v2.test/auth/kattana/callback',
+            ]),
+        );
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {
