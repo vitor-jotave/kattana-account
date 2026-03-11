@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Integrations\AppLaunchController;
+use App\Http\Controllers\Integrations\AppLogoutController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -13,6 +14,8 @@ Route::inertia('/docs', 'docs')->name('docs');
 Route::middleware(['auth'])->group(function () {
     Route::get('apps/{app}/launch', AppLaunchController::class)->name('integrations.apps.launch');
 });
+
+Route::get('apps/{app}/logout', AppLogoutController::class)->name('integrations.apps.logout');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
