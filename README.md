@@ -9,9 +9,9 @@
   <img src="https://img.shields.io/badge/licen%C3%A7a-PolyForm%20Noncommercial%201.0.0-111827?style=for-the-badge&labelColor=0D0D0D" alt="Licença PolyForm Noncommercial 1.0.0" />
 </p>
 
-A **Conta Kattana** e a central de identidade global da suite Kattana.
+A **Conta Kattana** é a central de identidade global da suite Kattana.
 
-Este app concentra autenticação, credenciais, verificação de cadastro, perfil básico e os fluxos de handoff entre meus apps.
+Concentra autenticação, credenciais, verificação de cadastro, perfil básico e os fluxos de handoff entre meus apps.
 
 ## Pra que serve 
 
