@@ -1,13 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "kattana/conta-kattana",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Central de identidade global da Kattana.",
     "keywords": [
-        "laravel",
-        "framework"
+        "kattana",
+        "identity",
+        "authentication",
+        "laravel"
     ],
-    "license": "MIT",
+    "license": "PolyForm-Noncommercial-1.0.0",
     "require": {
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^2.0",

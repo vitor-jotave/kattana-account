@@ -7,6 +7,7 @@ use App\Http\Responses\TwoFactorLoginResponse;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureUrl();
     }
 
     /**
@@ -51,5 +53,21 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+    }
+
+    /**
+     * Force URL generation only in production environment.
+     */
+    protected function configureUrl(): void
+    {
+        if (app()->environment('production')) {
+            $appUrl = config('app.url');
+
+            if (! empty($appUrl)) {
+                URL::forceRootUrl($appUrl);
+            }
+
+            URL::forceScheme('https');
+        }
     }
 }
