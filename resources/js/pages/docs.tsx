@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { docsSections } from '@/data/docs';
 import AppLayout from '@/layouts/app-layout';
-import { dashboard, login, register } from '@/routes';
+import { login, register } from '@/routes';
+import { edit as profileEdit } from '@/routes/profile';
 import type { Auth, BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -207,8 +208,8 @@ function GuestShell() {
                             Docs
                         </Link>
                         {auth.user ? (
-                            <Link href={dashboard()} className="rounded-full border border-border px-4 py-2 text-sm">
-                                Dashboard
+                            <Link href={profileEdit()} className="rounded-full border border-border px-4 py-2 text-sm">
+                                Perfil
                             </Link>
                         ) : (
                             <>

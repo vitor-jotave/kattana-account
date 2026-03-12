@@ -23,14 +23,15 @@ export default function DeleteUser() {
         <div className="space-y-6">
             <Heading
                 variant="small"
-                title="Delete account"
-                description="Delete your account and all of its resources"
+                title="Excluir conta"
+                description="Remova sua conta Kattana e encerre o acesso centralizado da sua identidade."
             />
-            <div className="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
-                <div className="relative space-y-0.5 text-red-600 dark:text-red-100">
-                    <p className="font-medium">Warning</p>
-                    <p className="text-sm">
-                        Please proceed with caution, this cannot be undone.
+            <div className="space-y-4 rounded-[1.75rem] border border-red-500/20 bg-[linear-gradient(180deg,rgba(40,13,13,0.96),rgba(17,9,9,0.98))] p-5 text-red-50">
+                <div className="relative space-y-1">
+                    <p className="font-medium text-red-200">Zona crítica</p>
+                    <p className="text-sm leading-6 text-red-100/75">
+                        Essa ação é permanente. Ao continuar, sua conta e o acesso
+                        centralizado vinculado a ela serão removidos.
                     </p>
                 </div>
 
@@ -38,20 +39,20 @@ export default function DeleteUser() {
                     <DialogTrigger asChild>
                         <Button
                             variant="destructive"
+                            className="rounded-full"
                             data-test="delete-user-button"
                         >
-                            Delete account
+                            Excluir conta
                         </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="border-white/10 bg-[#0b0b0b] text-white shadow-[0_30px_100px_rgba(0,0,0,0.45)]">
                         <DialogTitle>
-                            Are you sure you want to delete your account?
+                            Tem certeza de que deseja excluir sua conta?
                         </DialogTitle>
-                        <DialogDescription>
-                            Once your account is deleted, all of its resources
-                            and data will also be permanently deleted. Please
-                            enter your password to confirm you would like to
-                            permanently delete your account.
+                        <DialogDescription className="leading-6 text-zinc-400">
+                            Depois da exclusão, o acesso à Conta Kattana e os dados
+                            vinculados à conta serão removidos de forma permanente.
+                            Digite sua senha para confirmar.
                         </DialogDescription>
 
                         <Form
@@ -70,15 +71,16 @@ export default function DeleteUser() {
                                             htmlFor="password"
                                             className="sr-only"
                                         >
-                                            Password
+                                            Senha
                                         </Label>
 
                                         <PasswordInput
                                             id="password"
                                             name="password"
                                             ref={passwordInput}
-                                            placeholder="Password"
+                                            placeholder="Digite sua senha"
                                             autoComplete="current-password"
+                                            className="h-12 rounded-2xl border-white/10 bg-white/[0.04] text-white placeholder:text-zinc-500"
                                         />
 
                                         <InputError message={errors.password} />
@@ -88,16 +90,18 @@ export default function DeleteUser() {
                                         <DialogClose asChild>
                                             <Button
                                                 variant="secondary"
+                                                className="rounded-full border border-white/10 bg-white/[0.05] text-white hover:bg-white/[0.08]"
                                                 onClick={() =>
                                                     resetAndClearErrors()
                                                 }
                                             >
-                                                Cancel
+                                                Cancelar
                                             </Button>
                                         </DialogClose>
 
                                         <Button
                                             variant="destructive"
+                                            className="rounded-full"
                                             disabled={processing}
                                             asChild
                                         >
@@ -105,7 +109,7 @@ export default function DeleteUser() {
                                                 type="submit"
                                                 data-test="confirm-delete-user-button"
                                             >
-                                                Delete account
+                                                Confirmar exclusão
                                             </button>
                                         </Button>
                                     </DialogFooter>

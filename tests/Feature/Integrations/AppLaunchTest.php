@@ -2,6 +2,7 @@
 
 use App\Models\IntegrationCode;
 use App\Models\User;
+use Illuminate\Support\Facades\URL;
 
 beforeEach(function () {
     config()->set('integrations.apps.economizze', [
@@ -65,6 +66,65 @@ test('guest login continues the launch flow and reaches the final redirect with 
     $response->assertRedirectContains('/apps/economizze/launch');
 
     $launchResponse = $this->actingAs($user)->get($response->headers->get('Location'));
+
+    $launchResponse->assertRedirect();
+    expect($launchResponse->headers->get('Location'))
+        ->toStartWith('http://economizze.test/auth/callback?code=');
+});
+
+test('unverified users are redirected to email verification before launch completes', function () {
+    $user = User::factory()->unverified()->create();
+
+    $response = $this
+        ->actingAs($user)
+        ->get(route('integrations.apps.launch', [
+            'app' => 'economizze',
+            'return_to' => 'http://economizze.test/auth/callback',
+        ]));
+
+    $response->assertRedirect(route('verification.notice'));
+    expect(session('url.intended'))->toContain('/apps/economizze/launch');
+});
+
+test('registration through an integrated app resumes after email verification and reaches the client app', function () {
+    $this->get(route('integrations.apps.launch', [
+        'app' => 'economizze',
+        'return_to' => 'http://economizze.test/auth/callback',
+    ]))->assertRedirect(route('login'));
+
+    $registerResponse = $this->post(route('register.store'), [
+        'name' => 'Novo Usuario',
+        'email' => 'novo@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    $user = User::query()->where('email', 'novo@example.com')->firstOrFail();
+
+    $registerResponse->assertRedirectContains('/apps/economizze/launch');
+
+    $verificationPromptResponse = $this
+        ->actingAs($user)
+        ->get($registerResponse->headers->get('Location'));
+
+    $verificationPromptResponse->assertRedirect(route('verification.notice'));
+    expect(session('url.intended'))->toContain('/apps/economizze/launch');
+
+    $verificationUrl = URL::temporarySignedRoute(
+        'verification.verify',
+        now()->addMinutes(60),
+        ['id' => $user->id, 'hash' => sha1($user->email)],
+    );
+
+    $verifiedResponse = $this
+        ->actingAs($user)
+        ->get($verificationUrl);
+
+    $verifiedResponse->assertRedirectContains('/apps/economizze/launch');
+
+    $launchResponse = $this
+        ->actingAs($user)
+        ->get($verifiedResponse->headers->get('Location'));
 
     $launchResponse->assertRedirect();
     expect($launchResponse->headers->get('Location'))

@@ -33,7 +33,7 @@ export default function Login({
     return (
         <AuthLayout
             title={personalizedTitle}
-            description="Acesse sua conta Kattana para continuar pela suite com uma identidade unica e confiavel."
+            description="Acesse sua Conta Kattana para continuar no app selecionado."
         >
             <Head title="Entrar" />
 

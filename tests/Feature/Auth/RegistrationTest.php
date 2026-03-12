@@ -21,7 +21,7 @@ test('new users can register', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(route('profile.edit', absolute: false));
 
     expect(auth()->user())
         ->uuid->not->toBeEmpty();

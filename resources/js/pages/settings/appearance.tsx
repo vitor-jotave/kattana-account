@@ -8,7 +8,7 @@ import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Appearance settings',
+        title: 'Aparência',
         href: editAppearance(),
     },
 ];
@@ -16,18 +16,25 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Appearance() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Appearance settings" />
+            <Head title="Aparência" />
 
-            <h1 className="sr-only">Appearance settings</h1>
+            <h1 className="sr-only">Configurações de aparência</h1>
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <Heading
                         variant="small"
-                        title="Appearance settings"
-                        description="Update your account's appearance settings"
+                        title="Aparência"
+                        description="Escolha como a interface da sua conta deve ser exibida."
                     />
-                    <AppearanceTabs />
+                    <div className="rounded-[1.75rem] border border-white/10 bg-[#0d0d0d] p-6 text-white">
+                        <p className="mb-5 max-w-2xl text-sm leading-6 text-zinc-400">
+                            Você pode fixar o modo claro, o modo escuro ou deixar a
+                            Conta Kattana seguir automaticamente a preferência do
+                            sistema.
+                        </p>
+                        <AppearanceTabs />
+                    </div>
                 </div>
             </SettingsLayout>
         </AppLayout>

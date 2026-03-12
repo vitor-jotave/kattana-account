@@ -25,25 +25,25 @@ import { confirm } from '@/routes/two-factor';
 
 function GridScanIcon() {
     return (
-        <div className="mb-3 rounded-full border border-border bg-card p-0.5 shadow-sm">
-            <div className="relative overflow-hidden rounded-full border border-border bg-muted p-2.5">
-                <div className="absolute inset-0 grid grid-cols-5 opacity-50">
+        <div className="mb-3 rounded-full border border-white/10 bg-[#111111] p-0.5 shadow-sm">
+            <div className="relative overflow-hidden rounded-full border border-white/10 bg-white/[0.04] p-2.5">
+                <div className="absolute inset-0 grid grid-cols-5 opacity-30">
                     {Array.from({ length: 5 }, (_, i) => (
                         <div
                             key={`col-${i + 1}`}
-                            className="border-r border-border last:border-r-0"
+                            className="border-r border-white/10 last:border-r-0"
                         />
                     ))}
                 </div>
-                <div className="absolute inset-0 grid grid-rows-5 opacity-50">
+                <div className="absolute inset-0 grid grid-rows-5 opacity-30">
                     {Array.from({ length: 5 }, (_, i) => (
                         <div
                             key={`row-${i + 1}`}
-                            className="border-b border-border last:border-b-0"
+                            className="border-b border-white/10 last:border-b-0"
                         />
                     ))}
                 </div>
-                <ScanLine className="relative z-20 size-6 text-foreground" />
+                <ScanLine className="relative z-20 size-6 text-[#dfff4f]" />
             </div>
         </div>
     );
@@ -73,7 +73,7 @@ function TwoFactorSetupStep({
             ) : (
                 <>
                     <div className="mx-auto flex max-w-md overflow-hidden">
-                        <div className="mx-auto aspect-square w-64 rounded-lg border border-border">
+                        <div className="mx-auto aspect-square w-64 rounded-[1.5rem] border border-white/10 bg-white/[0.02]">
                             <div className="z-10 flex h-full w-full items-center justify-center p-5">
                                 {qrCodeSvg ? (
                                     <div
@@ -96,22 +96,22 @@ function TwoFactorSetupStep({
                     </div>
 
                     <div className="flex w-full space-x-5">
-                        <Button className="w-full" onClick={onNextStep}>
+                        <Button className="w-full rounded-full bg-white text-black hover:bg-white/90" onClick={onNextStep}>
                             {buttonText}
                         </Button>
                     </div>
 
                     <div className="relative flex w-full items-center justify-center">
-                        <div className="absolute inset-0 top-1/2 h-px w-full bg-border" />
-                        <span className="relative bg-card px-2 py-1">
-                            or, enter the code manually
+                        <div className="absolute inset-0 top-1/2 h-px w-full bg-white/10" />
+                        <span className="relative bg-[#0b0b0b] px-2 py-1 text-sm text-zinc-500">
+                            ou insira a chave manualmente
                         </span>
                     </div>
 
                     <div className="flex w-full space-x-2">
-                        <div className="flex w-full items-stretch overflow-hidden rounded-xl border border-border">
+                        <div className="flex w-full items-stretch overflow-hidden rounded-[1rem] border border-white/10">
                             {!manualSetupKey ? (
-                                <div className="flex h-full w-full items-center justify-center bg-muted p-3">
+                                <div className="flex h-full w-full items-center justify-center bg-white/[0.04] p-3">
                                     <Spinner />
                                 </div>
                             ) : (
@@ -120,11 +120,11 @@ function TwoFactorSetupStep({
                                         type="text"
                                         readOnly
                                         value={manualSetupKey}
-                                        className="h-full w-full bg-background p-3 text-foreground outline-none"
+                                        className="h-full w-full bg-transparent p-3 text-white outline-none"
                                     />
                                     <button
                                         onClick={() => copy(manualSetupKey)}
-                                        className="border-l border-border px-3 hover:bg-muted"
+                                        className="border-l border-white/10 px-3 text-zinc-300 hover:bg-white/[0.05]"
                                     >
                                         <IconComponent className="w-4" />
                                     </button>
@@ -205,20 +205,20 @@ function TwoFactorVerificationStep({
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="flex-1"
+                                className="flex-1 rounded-full border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.08]"
                                 onClick={onBack}
                                 disabled={processing}
                             >
-                                Back
+                                Voltar
                             </Button>
                             <Button
                                 type="submit"
-                                className="flex-1"
+                                className="flex-1 rounded-full bg-white text-black hover:bg-white/90"
                                 disabled={
                                     processing || code.length < OTP_MAX_LENGTH
                                 }
                             >
-                                Confirm
+                                Confirmar
                             </Button>
                         </div>
                     </div>
@@ -261,27 +261,27 @@ export default function TwoFactorSetupModal({
     }>(() => {
         if (twoFactorEnabled) {
             return {
-                title: 'Two-factor authentication enabled',
+                title: 'Autenticação em dois fatores ativada',
                 description:
-                    'Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.',
-                buttonText: 'Close',
+                    'A proteção extra já está ativa. Escaneie o QR code ou insira a chave no seu aplicativo autenticador.',
+                buttonText: 'Fechar',
             };
         }
 
         if (showVerificationStep) {
             return {
-                title: 'Verify authentication code',
+                title: 'Verifique o código do autenticador',
                 description:
-                    'Enter the 6-digit code from your authenticator app',
-                buttonText: 'Continue',
+                    'Digite o código de 6 dígitos exibido no seu aplicativo autenticador.',
+                buttonText: 'Continuar',
             };
         }
 
         return {
-            title: 'Enable two-factor authentication',
+            title: 'Ativar autenticação em dois fatores',
             description:
-                'To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app',
-            buttonText: 'Continue',
+                'Para concluir a ativação, escaneie o QR code ou insira a chave manualmente no seu aplicativo autenticador.',
+            buttonText: 'Continuar',
         };
     }, [twoFactorEnabled, showVerificationStep]);
 
@@ -316,11 +316,11 @@ export default function TwoFactorSetupModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="border-white/10 bg-[#0b0b0b] text-white shadow-[0_30px_100px_rgba(0,0,0,0.45)] sm:max-w-md">
                 <DialogHeader className="flex items-center justify-center">
                     <GridScanIcon />
                     <DialogTitle>{modalConfig.title}</DialogTitle>
-                    <DialogDescription className="text-center">
+                    <DialogDescription className="text-center leading-6 text-zinc-400">
                         {modalConfig.description}
                     </DialogDescription>
                 </DialogHeader>

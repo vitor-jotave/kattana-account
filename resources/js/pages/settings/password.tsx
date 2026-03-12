@@ -14,7 +14,7 @@ import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Password settings',
+        title: 'Senha',
         href: edit(),
     },
 ];
@@ -25,16 +25,16 @@ export default function Password() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Password settings" />
+            <Head title="Senha" />
 
-            <h1 className="sr-only">Password settings</h1>
+            <h1 className="sr-only">Configurações de senha</h1>
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <Heading
                         variant="small"
-                        title="Update password"
-                        description="Ensure your account is using a long, random password to stay secure"
+                        title="Atualizar senha"
+                        description="Use uma senha forte e exclusiva para manter sua conta protegida."
                     />
 
                     <Form
@@ -60,19 +60,19 @@ export default function Password() {
                         className="space-y-6"
                     >
                         {({ errors, processing, recentlySuccessful }) => (
-                            <>
+                            <div className="space-y-6 rounded-[1.75rem] border border-white/10 bg-[#0d0d0d] p-6 text-white">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="current_password">
-                                        Current password
+                                    <Label htmlFor="current_password" className="text-zinc-200">
+                                        Senha atual
                                     </Label>
 
                                     <PasswordInput
                                         id="current_password"
                                         ref={currentPasswordInput}
                                         name="current_password"
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block h-12 w-full rounded-2xl border-white/10 bg-white/[0.04] text-white placeholder:text-zinc-500"
                                         autoComplete="current-password"
-                                        placeholder="Current password"
+                                        placeholder="Digite sua senha atual"
                                     />
 
                                     <InputError
@@ -81,33 +81,33 @@ export default function Password() {
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="password">
-                                        New password
+                                    <Label htmlFor="password" className="text-zinc-200">
+                                        Nova senha
                                     </Label>
 
                                     <PasswordInput
                                         id="password"
                                         ref={passwordInput}
                                         name="password"
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block h-12 w-full rounded-2xl border-white/10 bg-white/[0.04] text-white placeholder:text-zinc-500"
                                         autoComplete="new-password"
-                                        placeholder="New password"
+                                        placeholder="Digite a nova senha"
                                     />
 
                                     <InputError message={errors.password} />
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="password_confirmation">
-                                        Confirm password
+                                    <Label htmlFor="password_confirmation" className="text-zinc-200">
+                                        Confirmar nova senha
                                     </Label>
 
                                     <PasswordInput
                                         id="password_confirmation"
                                         name="password_confirmation"
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block h-12 w-full rounded-2xl border-white/10 bg-white/[0.04] text-white placeholder:text-zinc-500"
                                         autoComplete="new-password"
-                                        placeholder="Confirm password"
+                                        placeholder="Repita a nova senha"
                                     />
 
                                     <InputError
@@ -118,9 +118,10 @@ export default function Password() {
                                 <div className="flex items-center gap-4">
                                     <Button
                                         disabled={processing}
+                                        className="rounded-full bg-white px-5 text-black hover:bg-white/90"
                                         data-test="update-password-button"
                                     >
-                                        Save password
+                                        Salvar nova senha
                                     </Button>
 
                                     <Transition
@@ -130,12 +131,12 @@ export default function Password() {
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm text-neutral-600">
-                                            Saved
+                                        <p className="text-sm text-zinc-400">
+                                            Salvo
                                         </p>
                                     </Transition>
                                 </div>
-                            </>
+                            </div>
                         )}
                     </Form>
                 </div>

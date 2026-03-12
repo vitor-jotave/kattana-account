@@ -39,7 +39,7 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(route('profile.edit', absolute: false));
 });
 
 test('inertia login uses external redirect semantics for integration launches', function () {
