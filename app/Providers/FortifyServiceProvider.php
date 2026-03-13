@@ -50,10 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::loginView(fn (Request $request) => Inertia::render('auth/login', [
             'canResetPassword' => Features::enabled(Features::resetPasswords()),
             'canRegister' => Features::enabled(Features::registration()),
-            'nickname' => Str::of((string) $request->query('n'))
-                ->trim()
-                ->substr(0, 40)
-                ->toString(),
+            'nickname' => $this->resolveLoginNickname($request),
             'status' => $request->session()->get('status'),
         ]));
 
@@ -91,5 +88,32 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($throttleKey);
         });
+    }
+
+    private function resolveLoginNickname(Request $request): string
+    {
+        $nickname = (string) $request->query('n');
+
+        if ($nickname === '') {
+            $intendedUrl = $request->session()->get('url.intended');
+
+            if (is_string($intendedUrl) && $this->isIntegrationLaunchUrl($intendedUrl)) {
+                parse_str((string) parse_url($intendedUrl, PHP_URL_QUERY), $query);
+
+                $nickname = (string) ($query['n'] ?? '');
+            }
+        }
+
+        return Str::of($nickname)
+            ->trim()
+            ->substr(0, 40)
+            ->toString();
+    }
+
+    private function isIntegrationLaunchUrl(string $url): bool
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+
+        return is_string($path) && preg_match('#^/apps/[^/]+/launch$#', $path) === 1;
     }
 }

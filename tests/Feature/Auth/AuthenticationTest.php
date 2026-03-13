@@ -30,6 +30,25 @@ test('login screen accepts a nickname from the query string', function () {
         );
 });
 
+test('login screen reads the nickname from the intended integration launch url', function () {
+    $this->withSession([
+        'url.intended' => route('integrations.apps.launch', [
+            'app' => 'economizze',
+            'return_to' => 'http://economizze-v2.test/auth/kattana/callback',
+            'n' => 'calebe',
+        ]),
+    ]);
+
+    $response = $this->get(route('login'));
+
+    $response
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('auth/login')
+            ->where('nickname', 'calebe'),
+        );
+});
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
